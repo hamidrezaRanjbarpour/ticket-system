@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Make New Ticket {% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <form action="{% url 'create_ticket' %}" method="post" >
+        {% csrf_token %}
+            <div class="container">
+                {{ form }}
+                <br><button class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    {% else %}
+        <div class="container">
+        <h4>Sorry! You must first login to make tickets.</h4>
+        <a href="{% url 'login' %}">Login now..</a>
+        </div>
+    {% endif %}
+{% endblock %}

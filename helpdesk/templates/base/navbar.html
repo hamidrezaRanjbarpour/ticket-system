@@ -1,0 +1,37 @@
+{% url 'login' as login_url %}
+{% url 'register' as register_url %}
+{% url 'create_ticket' as create_url %}
+{% url 'logout' as logout_url %}
+{% url 'tickets:detail' as detail_url %}
+{% url 'tickets:list_of_tickets' as ticketlist_url %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    {% if request.user.is_authenticated %}
+  <a class="navbar-brand" href="{{ ticketlist_url }}">Tickets</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    {% endif %}
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item {% if request.path == create_url %} active{% endif %}">
+        <a class="nav-link" href="{{create_url}}">Create ticket <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item {% if request.path == register_url %} active{% endif %}">
+        <a class="nav-link" href="{{register_url}}">Register</a>
+      </li>
+      <li class="nav-item {% if request.path == login_url %} active{% endif %}">
+        <a class="nav-link" href="{{login_url}}">Login</a>
+      </li>
+        {% if not request.user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Logout</a>
+      </li>
+        {% else %}
+        <li class="nav-item {% if request.path == logout_url %} active{% endif %}">
+            <a class="nav-link" href="{{logout_url}}">Logout</a>
+        </li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>

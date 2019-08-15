@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Login View {% endblock %}
+
+{% block content %}
+    <form action="{% url 'login' %}" method="post" >
+    {% csrf_token %}
+        <div class="container">
+            <label for="user">Username:</label>
+            <input type="text" class="form-control" name="username" required id="user" placeholder="Enter Username">
+
+            <label for="pass">Password:</label>
+            <input type="password" class="form-control" name="password" required id="pass" placeholder="Password">
+
+            <button type="submit" class="btn btn-primary">Login!</button>
+
+            {% if error_message %}
+            <ul><li>{{ error_message }}</li></ul>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}
