@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Ticket details{% endblock %}
+
+{% block content %}
+    <div class="container">
+            <label for="owner">Owner: </label>
+            <input type="text" readonly placeholder="{{ ticket.owner }}" id="owner"><br>
+
+            <label for="title">Title: </label>
+            <input type="text" readonly placeholder="{{ ticket.title }}" id="title"><br>
+
+            <label for="number">Ticket ID: </label>
+            <input type="text" readonly placeholder="{{ ticket.id }}" id="number">
+
+        <hr>
+
+        <p><b>{{ ticket.owner }}: </b>{{ ticket.content }}</p>
+        {% if ticket.response_set.all %}
+            {% if ticket.response_set.first.admin.is_staff %}
+                <p><b>{{ ticket.response_set.first.admin }}(admin): </b> {{ ticket.response_set.first.respond }}</p>
+            {% endif %}
+        {% endif %}
+
+        {% for comment in ticket.comment_set.all %}
+            <p><b>{{ comment.owner  }}: </b>{{comment.content}}</p>
+            {% for response in comment.response_set.all %}
+                <p><b>{{ response.admin  }}(admin): </b>{{response.respond}}</p>
+                {% empty %}
+            {% endfor %}
+        {% empty %}
+
+        {% endfor %}
+
+        <form action="{% url 'tickets:detail' ticket.id %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="comment" placeholder="Need more help?"><br>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+{% endblock %}

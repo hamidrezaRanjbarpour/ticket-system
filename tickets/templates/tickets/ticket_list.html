@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Ticket List {% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class="container">
+            <h4>{{ request.user }}, You can see all of your tickets here.</h4>
+            {% for ticket in tickets %}
+                {% include 'base/jumbotron.html' with title=ticket.title content=ticket.content id=ticket.id %}
+            {% empty %}
+                <p>You haven't created any tickets yet.</p>
+                <a href="{% url 'create_ticket' %}">Create your first ticket..</a>
+            {% endfor %}
+
+        </div>
+    {% endif %}
+{% endblock %}
